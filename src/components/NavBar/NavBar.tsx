@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  IconDog,
   IconCalendarEvent,
   IconVaccine,
   IconVaccineBottle,
@@ -7,7 +8,7 @@ import {
   IconLogout,
   IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { Center, Stack, Tooltip, UnstyledButton, Text } from '@mantine/core';
+import { Center, Stack, Tooltip, UnstyledButton, ThemeIcon } from '@mantine/core';
 import classes from './Navbar.module.css';
 
 interface NavbarLinkProps {
@@ -23,7 +24,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
       <UnstyledButton
         onClick={onClick}
         component='a'
-        href='/'
+        href = {"/" + label}
         className={classes.link}
         data-active={active || undefined}
         aria-label={label}
@@ -40,11 +41,13 @@ const mockdata = [
   { icon: IconCalendarEvent, label: 'Citas' },
 ];
 
-export function NavbarMinimalColored() {
-  const [active, setActive] = useState(0);
+export function NavbarMinimalColored({selectedLabel}: {selectedLabel: string}) {
+  let test: number = mockdata.findIndex((element) => {console.log(selectedLabel, element.label); return element.label == selectedLabel});
+
+  const [active, setActive] = useState(test);
 
   useEffect(() => {
-    console.log(active);
+
   }, [active]);
 
   const links = mockdata.map((link, index) => (
@@ -59,7 +62,9 @@ export function NavbarMinimalColored() {
   return (
     <nav className={classes.navbar}>
       <Center>
-        <Text size="md">Default text</Text>
+        <ThemeIcon variant="white" size="xl">
+          <IconDog size={40} stroke={2.5}></IconDog>
+        </ThemeIcon>
       </Center>
 
       <div className={classes.navbarMain}>
