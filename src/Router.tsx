@@ -1,11 +1,15 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-//import { HomePage } from './pages/Home.page';
-import { HomePageTest } from './pages/Home.pageTest';
+import {ClientDashboard} from "./pages/ClientDashboard.tsx";
+import {VetDashboard} from "./pages/VetDashboard.tsx";
 
 const router = createBrowserRouter([
   {
     path: '/:section?/*',
-    element: <HomePageTest/>,
+    element: <ClientDashboard/>,
+  },
+  {
+    path: 'vet/:section?/*',
+    element: <VetDashboard/>
   }
 ]);
 

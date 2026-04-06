@@ -1,59 +1,49 @@
-import { useEffect, useState } from 'react';
-import {
-  IconDog,
-  IconCalendarEvent,
-  IconVaccine,
-  IconVaccineBottle,
-  IconHome2,
-  IconLogout,
-  IconSwitchHorizontal,
-} from '@tabler/icons-react';
-import { Center, Stack, Tooltip, UnstyledButton, ThemeIcon } from '@mantine/core';
+import {useEffect, useState} from 'react';
+import {IconDog, IconHome2, IconLogout, IconSwitchHorizontal} from '@tabler/icons-react';
+import {Center, Stack, Tooltip, UnstyledButton, ThemeIcon} from '@mantine/core';
+import {type Button} from '../../mockdata/MockData.tsx'
 import classes from './Navbar.module.css';
 
 interface NavbarLinkProps {
-  icon: typeof IconHome2;
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
+    icon: typeof IconHome2;
+    label: string;
+    active?: boolean;
+    onClick?: () => void;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
-  return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      <UnstyledButton
-        onClick={onClick}
-        component='a'
-        href = {"/" + label}
-        className={classes.link}
-        data-active={active || undefined}
-        aria-label={label}
-      >
-        <Icon size={20} stroke={1.5} />
-      </UnstyledButton>
-    </Tooltip>
-  );
+function NavbarLink({icon: Icon, label, active, onClick}: NavbarLinkProps) {
+    return (
+        <Tooltip label={label} position="right" transitionProps={{duration: 0}}>
+            <UnstyledButton
+                onClick={onClick}
+                component='a'
+                href={"/" + label}
+                className={classes.link}
+                data-active={active || undefined}
+                aria-label={label}
+            >
+                <Icon size={20} stroke={1.5}/>
+            </UnstyledButton>
+        </Tooltip>
+    );
 }
 
-const mockdata = [
-  { icon: IconVaccineBottle, label: 'Medicamentos' },
-  { icon: IconVaccine, label: 'Vacunas' },
-  { icon: IconCalendarEvent, label: 'Citas' },
-];
+export function NavbarMinimalColored({selectedLabel, labels}: { selectedLabel: string, labels: Button[]}) {
+    let test: number = labels.findIndex((element: { label: string; }) => {
+        console.log(selectedLabel, element.label);
+        return element.label == selectedLabel
+    });
 
-export function NavbarMinimalColored({selectedLabel}: {selectedLabel: string}) {
-  let test: number = mockdata.findIndex((element) => {console.log(selectedLabel, element.label); return element.label == selectedLabel});
+    const [active, setActive] = useState(test);
 
-  const [active, setActive] = useState(test);
+    useEffect(() => {
 
-  useEffect(() => {
+    }, [active]);
 
-  }, [active]);
-
-  const links = mockdata.map((link, index) => (
+    const links = labels.map((element, index) => (
     <NavbarLink
-      {...link}
-      key={link.label}
+        {...element}
+      key={element.label}
       active={index === active}
       onClick={() => setActive(index)}
     />
