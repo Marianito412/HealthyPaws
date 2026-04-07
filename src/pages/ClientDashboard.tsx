@@ -9,27 +9,27 @@ import {Mascotas} from "../components/ClientComponents/Mascotas/Mascotas.tsx";
 
 
 export function ClientDashboard() {
-  let params = useParams<{section: string}>()
+    let params = useParams<{ section: string }>()
 
-  const test: Record<string, ReactNode> = {
-      Mascotas: <Mascotas/>,
-      Medicamentos: <Medicamentos/>,
-      Citas: <Citas/>
-  }
+    const test: Record<string, ReactNode> = {
+        Mascotas: <Mascotas/>,
+        Medicamentos: <Medicamentos/>,
+        Citas: <Citas/>
+    }
 
-  let Comp: ReactNode = test[params.section!];
+    let Comp: ReactNode = test[params.section!];
 
-  return (
-    <AppShell navbar={{ width: 80, breakpoint: 'sm' }}
-      padding="md">
+    return (
+        <AppShell navbar={{width: 80, breakpoint: 'sm'}}
+                  padding="md">
 
-        <AppShell.Navbar>
-          <NavbarMinimalColored selectedLabel={params.section!} labels={mockButtonsClient} />
-        </AppShell.Navbar>
+            <AppShell.Navbar>
+                <NavbarMinimalColored selectedLabel={params.section!} labels={mockButtonsClient}/>
+            </AppShell.Navbar>
 
-        <AppShell.Main>
-          {Comp}
-        </AppShell.Main>
-    </AppShell>
-  );
+            <AppShell.Main>
+                {Comp}
+            </AppShell.Main>
+        </AppShell>
+    );
 }

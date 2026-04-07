@@ -7,9 +7,37 @@ import dayjs from "dayjs";
 
 export function Citas() {
 
+    let confirmedCitas: number = 0;
+    
+    const getUrgencyColor = (urgency: string) => {
+        switch (urgency) {
+            case "low":
+                return "green";
+            case "medium":
+                return "orange";
+            case "high":
+                return "red";
+        }
+    }
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case "completed":
+                return "blue";
+            case "pending":
+                return "orange"
+            case "confirmed":
+                return "green";
+            case "cancelled":
+                return "red";
+        }
+    }
+    
     let upcomingCitas = mockCitas
         .filter((value) => {return (value.status != 'completed') && (value.status != 'cancelled');})
+        .toSorted((a, b) => (a.status=="confirmed" ? 0:1) - (b.status=="confirmed" ? 0:1))
         .map((element, index) => {
+            if (element.status == "confirmed") {confirmedCitas = index;}
             return (
                 <TimelineItem title={element.petName} key={index}>
                     <Group justify="space-between">
@@ -19,8 +47,8 @@ export function Citas() {
                             <Text size="xs" mt={4}>N minutes ago</Text>
                         </div>
                         <Group>
-                            <Badge>{element.urgency}</Badge>
-                            <Badge>{element.status}</Badge>
+                            <Badge color={getUrgencyColor(element.urgency)}>{element.urgency}</Badge>
+                            <Badge color={getStatusColor(element.status)}>{element.status}</Badge>
                         </Group>
                     </Group>
                 </TimelineItem>
@@ -38,7 +66,7 @@ export function Citas() {
                     </Accordion.Control>
                     <Accordion.Panel>
                         <Text>Hora: {element.time}</Text>
-                        <Card bg="gray.8" shadow="md">
+                        <Card bg="dark.5" variant="light" shadow="md">
                             <Text>Notas: </Text>
                             <Text c="dimmed">{element.notes}</Text>
                         </Card>
@@ -59,7 +87,7 @@ export function Citas() {
                             <Title order={3}>Solicitar Cita</Title>
                         </Button>
                     </Group>
-                    <Timeline active={0} bulletSize={24} lineWidth={2}>
+                    <Timeline active={confirmedCitas} bulletSize={24} lineWidth={2}>
                         {upcomingCitas}
                     </Timeline>
                 </Card>

@@ -1,20 +1,20 @@
-import {IconCalendarEvent, IconVaccine, IconVaccineBottle, IconPawFilled} from "@tabler/icons-react";
+import {IconCalendarEventFilled, IconVaccineBottle, IconPawFilled, IconPillFilled} from "@tabler/icons-react";
 
 export type Button = {
     icon: typeof IconVaccineBottle;
+    href: string;
     label: string;
 }
 
 export const mockButtonsClient: Button[] = [
-    { icon: IconPawFilled, label: 'Mascotas' },
-    { icon: IconVaccineBottle, label: 'Medicamentos' },
-    { icon: IconCalendarEvent, label: 'Citas' },
+    { icon: IconPawFilled, href: 'Mascotas', label: 'Mascotas' },
+    { icon: IconPillFilled, href: 'Medicamentos', label: 'Medicamentos' },
+    { icon: IconCalendarEventFilled, href: 'Citas', label: 'Citas' },
 ];
 
 export const mockButtonsVet: Button[] = [
-    { icon: IconVaccineBottle, label: 'Medicamentos' },
-    { icon: IconVaccine, label: 'Vacunas' },
-    { icon: IconCalendarEvent, label: 'Citas' },
+    { icon: IconPillFilled, href: 'Vet/Medicamentos', label: 'Medicamentos' },
+    { icon: IconCalendarEventFilled, href: 'Vet/Citas', label: 'Citas' }
 ];
 
 export type Cita = {
@@ -34,7 +34,7 @@ export const mockCitas: Cita[] = [
         id: '1',
         petName: 'Max',
         ownerName: 'Juan Pérez',
-        date: '2026-04-05',
+        date: '2026-04-06',
         time: '10:00',
         reason: 'Revisión post-operatoria',
         urgency: 'medium',
