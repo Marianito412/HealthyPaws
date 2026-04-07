@@ -1,12 +1,21 @@
 import {
     Title, Text, Card, Space, Stack, Button,
-    Group, Timeline, TimelineItem, Badge, Accordion
+    Group, Timeline, TimelineItem, Badge, Accordion, Modal, Select, TextInput, Textarea
 } from "@mantine/core";
 import {mockCitas} from "../../../mockdata/MockData.tsx";
 import dayjs from "dayjs";
+import {useState} from "react";
 
 export function Citas() {
-
+    let [modalOpened, setModalOpened] = useState(false);
+    let [newAppointment, setNewAppointment] = useState({
+        petName: '',
+        date: '',
+        time: '',
+        reason: '',
+        urgency: 'low' as 'low' | 'medium' | 'high',
+    });
+    
     let confirmedCitas: number = 0;
     
     const getUrgencyColor = (urgency: string) => {
@@ -31,6 +40,11 @@ export function Citas() {
             case "cancelled":
                 return "red";
         }
+    }
+    
+    const addCita = () => {
+        setModalOpened(false);
+        setNewAppointment({ petName: '', date: '', time: '', reason: '', urgency: 'low' });
     }
     
     let upcomingCitas = mockCitas
@@ -83,7 +97,7 @@ export function Citas() {
                 <Card>
                     <Group justify="space-between">
                         <Title order={2}>Citas</Title>
-                        <Button variant="filled">
+                        <Button variant="filled" onClick={() => {setModalOpened(true)}}>
                             <Title order={3}>Solicitar Cita</Title>
                         </Button>
                     </Group>
@@ -98,6 +112,54 @@ export function Citas() {
                     </Accordion>
                 </Card>
             </Stack>
+            <Modal opened={modalOpened} onClose={() => setModalOpened(false)} title="Solicitar nueva cita">
+                <Stack>
+                    <Select
+                        label="Mascota"
+                        placeholder="Selecciona una mascota"
+                        data={[
+                            { value: 'Max', label: 'Max' },
+                            { value: 'Luna', label: 'Luna' },
+                        ]}
+                        value={newAppointment.petName}
+                        onChange={(value) => setNewAppointment({ ...newAppointment, petName: value || '' })}
+                    />
+                    <TextInput
+                        label="Fecha"
+                        type="date"
+                        value={newAppointment.date}
+                        onChange={(e) => setNewAppointment({ ...newAppointment, date: e.currentTarget.value })}
+                    />
+                    <TextInput
+                        label="Hora"
+                        type="time"
+                        value={newAppointment.time}
+                        onChange={(e) => setNewAppointment({ ...newAppointment, time: e.currentTarget.value })}
+                    />
+                    <Textarea
+                        label="Motivo de la cita"
+                        placeholder="Describe el motivo de la consulta"
+                        value={newAppointment.reason}
+                        onChange={(e) => setNewAppointment({ ...newAppointment, reason: e.currentTarget.value })}
+                    />
+                    <Select
+                        label="Urgencia"
+                        data={[
+                            { value: 'low', label: 'Baja' },
+                            { value: 'medium', label: 'Media' },
+                            { value: 'high', label: 'Alta' },
+                        ]}
+                        value={newAppointment.urgency}
+                        onChange={(value) => setNewAppointment({ ...newAppointment, urgency: (value as any) || 'low' })}
+                    />
+                    <Group justify="flex-end" mt="md">
+                        <Button variant="subtle" onClick={() => setModalOpened(false)}>
+                            Cancelar
+                        </Button>
+                        <Button onClick={addCita}>Solicitar cita</Button>
+                    </Group>
+                </Stack>
+            </Modal>
         </>
     );
 }
